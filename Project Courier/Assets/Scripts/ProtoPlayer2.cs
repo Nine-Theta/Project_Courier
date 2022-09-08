@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ProtoPlayer : MonoBehaviour
+public class ProtoPlayer2 : MonoBehaviour
 {
     public enum Directions { NONE, NORTH, EAST, SOUTH, WEST };
 
@@ -12,6 +12,7 @@ public class ProtoPlayer : MonoBehaviour
     [SerializeField]
     private float _moveSpeed;
 
+    bool move;
 
     private Vector2 _playerPos;
     private Vector2 _moveTargetPos;
@@ -19,6 +20,8 @@ public class ProtoPlayer : MonoBehaviour
 
     private Directions _moveDir;
     private Directions _nextMoveDir;
+
+    private PlayerControls controls;
 
     public Directions SetNextTargetDir
     {
@@ -56,30 +59,44 @@ public class ProtoPlayer : MonoBehaviour
         }
     }
 
-    public void OnMove(InputValue movementValue)
+
+    public void OnMoveNorth(InputValue g)
     {
-        Directions dir = Directions.NONE;
-    
-        if(movementValue.Get<Vector2>().y >= 0.5f)
-        {
-            dir = Directions.NORTH;
-        }
-        else if (movementValue.Get<Vector2>().y <= -0.5f)
-        {
-            dir = Directions.SOUTH;
-        }
-        else if (movementValue.Get<Vector2>().x >= 0.5f)
-        {
-            dir = Directions.EAST;
-        }
-        else if (movementValue.Get<Vector2>().x <= -0.5f)
-        {
-            dir = Directions.WEST;
-        }
+        Debug.Log("g");
+        Debug.Log(g.isPressed);
+        SetNextTargetDir = Directions.NORTH;
+    }
+    public void OnMoveEast()
+    {
+        SetNextTargetDir = Directions.EAST;
+    }
+    public void OnMoveSouth()
+    {
+        SetNextTargetDir = Directions.SOUTH;
+    }
+    public void OnMoveWest()
+    {
+        SetNextTargetDir = Directions.WEST;
+    }
 
-        SetNextTargetDir = dir;
+    private void Awake()
+    {
+        controls = new PlayerControls();
+        controls.Player.MoveNorth.performed += ctx => SendMessage(ctx);
+    }
 
-        //Debug.Log("beep " + movementValue.Get<Vector2>());
+    private void SendMessage(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("North +" + ctx.ReadValueAsButton());
+    }
+
+    private void OnEnable()
+    {
+        controls.Player.Enable();
+    }
+    private void OnDisable()
+    {
+        controls.Player.Disable();
     }
 
     private void Start()
