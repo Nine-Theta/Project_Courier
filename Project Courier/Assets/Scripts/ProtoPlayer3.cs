@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ProtoPlayer2 : MonoBehaviour
+public class ProtoPlayer3 : MonoBehaviour
 {
     public enum Directions { NORTH, EAST, SOUTH, WEST, NONE };
 
@@ -19,11 +19,10 @@ public class ProtoPlayer2 : MonoBehaviour
     private Vector2 _playerPos;
     private Vector2 _moveTargetPos;
     private Vector2 _moveDelta;
+    private Vector2 _moveDirection;
 
     private Directions _moveDir = Directions.NONE;
     private Directions _nextMoveDir = Directions.NONE;
-
-    private PlayerControls controls;
 
     public Directions SetNextTargetDir
     {
@@ -59,49 +58,21 @@ public class ProtoPlayer2 : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void OnMove(InputValue pMoveVec)
     {
-        Debug.Log("collided!");
-    }
+        Vector2 vec = pMoveVec.Get<Vector2>();
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("triggered!");
-    }
-
-    private void Awake()
-    {
-        controls = new PlayerControls();
-        controls.Player.MoveNorth.performed += ctx => UpdateMoveInput(Directions.NORTH, ctx.ReadValueAsButton());
-        controls.Player.MoveEast.performed += ctx => UpdateMoveInput(Directions.EAST, ctx.ReadValueAsButton());
-        controls.Player.MoveSouth.performed += ctx => UpdateMoveInput(Directions.SOUTH, ctx.ReadValueAsButton());
-        controls.Player.MoveWest.performed += ctx => UpdateMoveInput(Directions.WEST, ctx.ReadValueAsButton());
-
-    }
-
-    private void UpdateMoveInput(Directions pDir, bool pState)
-    {
-        _dirPressed[(int)pDir] = pState;
-
-        if (pState)
-            SetNextTargetDir = pDir;
+        if (Mathf.Abs(vec.x) > Mathf.Abs(vec.y))
+        {
+            _moveDirection = new Vector2(Mathf.RoundToInt(vec.x), 0);
+        }
         else
-            _nextMoveDir = Directions.NONE;
+        {
+            _moveDirection = new Vector2(0, Mathf.RoundToInt(vec.y));
+        }
 
-    }
+        Debug.Log("Movee: " + _moveDirection);
 
-    private void SendMessage(InputAction.CallbackContext ctx)
-    {
-        Debug.Log("North +" + ctx.ReadValueAsButton());
-    }
-
-    private void OnEnable()
-    {
-        controls.Player.Enable();
-    }
-    private void OnDisable()
-    {
-        controls.Player.Disable();
     }
 
     private void Start()
@@ -123,7 +94,16 @@ public class ProtoPlayer2 : MonoBehaviour
     }
 
     private void SetMoveDir()
-    { 
+    {
+
+        //float x = _playerPos.x;
+        //float y = _playerPos.y;
+
+        _moveTargetPos = _playerPos + _moveDirection;
+       _moveDelta = (_moveDirection) * _moveSpeed;
+
+        Debug.Log(_moveDelta);
+        /**
         if (_nextMoveDir == Directions.NONE)
         {
             if (_moveDir == Directions.NONE || !_dirPressed[(int)_moveDir])
@@ -171,7 +151,8 @@ public class ProtoPlayer2 : MonoBehaviour
         _moveTargetPos = new Vector2((int)x, (int)y);
 
         _moveDelta = (_moveTargetPos - _playerPos) * _moveSpeed;
-        
+        */
+
         //Console.Beep();
     }
 }

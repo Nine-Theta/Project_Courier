@@ -33,7 +33,7 @@ public partial class @ProjectCourier : IInputActionCollection2, IDisposable
                     ""id"": ""ac2afd1b-991e-47c6-a071-855b5b77946a"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": """",
                     ""initialStateCheck"": true
                 },
                 {
@@ -49,42 +49,6 @@ public partial class @ProjectCourier : IInputActionCollection2, IDisposable
                     ""name"": ""Fire"",
                     ""type"": ""Button"",
                     ""id"": ""03084b94-047f-489e-bdb5-f07a64093cea"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""MoveNorth"",
-                    ""type"": ""Button"",
-                    ""id"": ""59622cd0-79fd-4ed0-b699-fe8fb4414562"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""MoveEast"",
-                    ""type"": ""Button"",
-                    ""id"": ""466e988c-d9b0-4a82-be9f-2ee93a6aee7d"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""MoveSouth"",
-                    ""type"": ""Button"",
-                    ""id"": ""416264a3-ef85-4788-b9b5-0a62e70817cc"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""MoveWest"",
-                    ""type"": ""Button"",
-                    ""id"": ""d09e898d-d1e7-4270-a394-e48b80502486"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -107,7 +71,7 @@ public partial class @ProjectCourier : IInputActionCollection2, IDisposable
                     ""name"": ""WASD"",
                     ""id"": ""00ca640b-d935-4593-8157-c05846ea39b3"",
                     ""path"": ""2DVector"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
@@ -120,7 +84,7 @@ public partial class @ProjectCourier : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -128,7 +92,7 @@ public partial class @ProjectCourier : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Down"",
                     ""id"": ""8180e8bd-4097-4f4e-ab88-4523101a6ce9"",
-                    ""path"": ""<Keyboard>/upArrow"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -139,10 +103,10 @@ public partial class @ProjectCourier : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Left"",
                     ""id"": ""05d0f06c-0c3d-48b3-8cec-3dcf31ed63b1"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -150,10 +114,10 @@ public partial class @ProjectCourier : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Right"",
                     ""id"": ""ad3d6e89-4979-4ea9-9c95-34f576cbe418"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -265,94 +229,6 @@ public partial class @ProjectCourier : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""XR"",
                     ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5874c08e-416d-4315-950f-8cb7e14b17d3"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""MoveEast"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8bf89431-8108-4bec-8a0e-c9782d185c7e"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""MoveEast"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""326a957a-294f-4f22-937f-3ad9abd3e52e"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveSouth"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""372444a6-4fa2-47bf-b0f8-224f11081658"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveSouth"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4c862cef-277e-4621-9b4f-cb9afc68c557"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveWest"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""48ba71c5-e2b1-4565-bf8c-1c7c84c32744"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveWest"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e5ca63a3-c1f1-452a-a413-1740b33bfd38"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""MoveNorth"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2ee9c124-d2bf-4e06-b6ab-0ba7bbc83da0"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""MoveNorth"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -943,10 +819,6 @@ public partial class @ProjectCourier : IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
-        m_Player_MoveNorth = m_Player.FindAction("MoveNorth", throwIfNotFound: true);
-        m_Player_MoveEast = m_Player.FindAction("MoveEast", throwIfNotFound: true);
-        m_Player_MoveSouth = m_Player.FindAction("MoveSouth", throwIfNotFound: true);
-        m_Player_MoveWest = m_Player.FindAction("MoveWest", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1021,10 +893,6 @@ public partial class @ProjectCourier : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
-    private readonly InputAction m_Player_MoveNorth;
-    private readonly InputAction m_Player_MoveEast;
-    private readonly InputAction m_Player_MoveSouth;
-    private readonly InputAction m_Player_MoveWest;
     public struct PlayerActions
     {
         private @ProjectCourier m_Wrapper;
@@ -1032,10 +900,6 @@ public partial class @ProjectCourier : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
-        public InputAction @MoveNorth => m_Wrapper.m_Player_MoveNorth;
-        public InputAction @MoveEast => m_Wrapper.m_Player_MoveEast;
-        public InputAction @MoveSouth => m_Wrapper.m_Player_MoveSouth;
-        public InputAction @MoveWest => m_Wrapper.m_Player_MoveWest;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1054,18 +918,6 @@ public partial class @ProjectCourier : IInputActionCollection2, IDisposable
                 @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
-                @MoveNorth.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveNorth;
-                @MoveNorth.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveNorth;
-                @MoveNorth.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveNorth;
-                @MoveEast.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveEast;
-                @MoveEast.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveEast;
-                @MoveEast.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveEast;
-                @MoveSouth.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveSouth;
-                @MoveSouth.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveSouth;
-                @MoveSouth.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveSouth;
-                @MoveWest.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveWest;
-                @MoveWest.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveWest;
-                @MoveWest.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveWest;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1079,18 +931,6 @@ public partial class @ProjectCourier : IInputActionCollection2, IDisposable
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
-                @MoveNorth.started += instance.OnMoveNorth;
-                @MoveNorth.performed += instance.OnMoveNorth;
-                @MoveNorth.canceled += instance.OnMoveNorth;
-                @MoveEast.started += instance.OnMoveEast;
-                @MoveEast.performed += instance.OnMoveEast;
-                @MoveEast.canceled += instance.OnMoveEast;
-                @MoveSouth.started += instance.OnMoveSouth;
-                @MoveSouth.performed += instance.OnMoveSouth;
-                @MoveSouth.canceled += instance.OnMoveSouth;
-                @MoveWest.started += instance.OnMoveWest;
-                @MoveWest.performed += instance.OnMoveWest;
-                @MoveWest.canceled += instance.OnMoveWest;
             }
         }
     }
@@ -1250,10 +1090,6 @@ public partial class @ProjectCourier : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
-        void OnMoveNorth(InputAction.CallbackContext context);
-        void OnMoveEast(InputAction.CallbackContext context);
-        void OnMoveSouth(InputAction.CallbackContext context);
-        void OnMoveWest(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
