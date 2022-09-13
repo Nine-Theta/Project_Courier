@@ -3,59 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class ProtoPlayer3 : MonoBehaviour
 {
-    public enum Directions { NORTH, EAST, SOUTH, WEST, NONE };
-
-    [SerializeField]
-    private int _tileSize;
     [SerializeField]
     private float _moveSpeed;
 
-    private bool[] _dirPressed =  new bool[] { false, false, false, false };
-
-    private Vector2 _playerPos;
     private Vector2 _moveTargetPos;
-    private Vector2 _moveDelta;
-    private Vector2 _moveDirection;
 
-    private Directions _moveDir = Directions.NONE;
-    private Directions _nextMoveDir = Directions.NONE;
+    private Vector2 _targetDir;
+    private Vector2 _nextTargetDir;
 
-    public Directions SetNextTargetDir
+    private Rigidbody2D _playerBody;
+
+    private void Start()
     {
-        set
-        {
-            bool isOpposite = false;
-            switch (value)
-            {               
-                case Directions.NORTH:
-                    if (_moveDir == Directions.SOUTH)
-                        isOpposite = true;
-                    break;
-                case Directions.EAST:
-                    if (_moveDir == Directions.WEST)
-                        isOpposite = true;
-                    break;
-                case Directions.SOUTH:
-                    if (_moveDir == Directions.NORTH)
-                        isOpposite = true;
-                    break;
-                case Directions.WEST:
-                    if (_moveDir == Directions.EAST)
-                        isOpposite = true;
-                    break;
-                default:
-                    break;
-            }
+        _playerBody = GetComponent<Rigidbody2D>();
 
-            _nextMoveDir = value;
+        _moveTargetPos = transform.position;
+    }
 
-            if (isOpposite)
-                SetMoveDir();            
-        }
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        _nextTargetDir = Vector2.zero;
+        SetMoveDir(false);
+        Debug.Log("got bopped");
     }
 
     public void OnMove(InputValue pMoveVec)
@@ -64,94 +39,48 @@ public class ProtoPlayer3 : MonoBehaviour
 
         if (Mathf.Abs(vec.x) > Mathf.Abs(vec.y))
         {
-            _moveDirection = new Vector2(Mathf.RoundToInt(vec.x), 0);
+            vec = new Vector2(Mathf.RoundToInt(vec.x), 0);
         }
         else
         {
-            _moveDirection = new Vector2(0, Mathf.RoundToInt(vec.y));
+            vec = new Vector2(0, Mathf.RoundToInt(vec.y));
         }
+   
+        _nextTargetDir = vec;
 
-        Debug.Log("Movee: " + _moveDirection);
-
-    }
-
-    private void Start()
-    {
-        _playerPos = transform.position;
-        _moveTargetPos = _playerPos;
-    }
-
-    private void Update()
-    {
-        if ((_moveTargetPos - _playerPos).sqrMagnitude <= 0.01f)
+        if (_targetDir == -vec)
         {
-            _playerPos = _moveTargetPos;
+            SetMoveDir(false);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        //Debug.Log((_moveTargetPos - (Vector2)transform.position).sqrMagnitude);
+
+        if ((_moveTargetPos - (Vector2)transform.position).sqrMagnitude <= 0.0001f)
+        {
             SetMoveDir();
         }
-
-        _playerPos += _moveDelta;
-        transform.position = _playerPos;
     }
 
-    private void SetMoveDir()
+    private void SetMoveDir(bool pSetPos = true)
     {
+        _targetDir = _nextTargetDir;
 
-        //float x = _playerPos.x;
-        //float y = _playerPos.y;
+        if (pSetPos)
+            transform.position = _moveTargetPos;
 
-        _moveTargetPos = _playerPos + _moveDirection;
-       _moveDelta = (_moveDirection) * _moveSpeed;
+        _moveTargetPos = (Vector2)transform.position + _targetDir;
 
-        Debug.Log(_moveDelta);
-        /**
-        if (_nextMoveDir == Directions.NONE)
-        {
-            if (_moveDir == Directions.NONE || !_dirPressed[(int)_moveDir])
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    if (_dirPressed[i])
-                    {
-                        _moveDir = (Directions)i;
-                        break;
-                    }
-                    _moveDir = Directions.NONE;
-                }
-            }
-        }
-        else
-        {
-            _moveDir = _nextMoveDir;
-            _nextMoveDir = Directions.NONE;
-        }
+        _moveTargetPos.x = Mathf.RoundToInt(_moveTargetPos.x);
+        _moveTargetPos.y = Mathf.RoundToInt(_moveTargetPos.y);
 
-        float x = _playerPos.x;
-        float y = _playerPos.y;
+        _playerBody.velocity = Vector2.zero;
 
-        switch (_moveDir)
-        {
-            case Directions.NONE:
-                break;
-            case Directions.NORTH:
-                y += _tileSize;
-                break;
-            case Directions.EAST:
-                x += _tileSize;
-                break;
-            case Directions.SOUTH:
-                y -= _tileSize;
-                break;
-            case Directions.WEST:
-                x -= _tileSize;
-                break;
-            default:
-                break;
-        }
+        Debug.Log("bep " + _playerBody.velocity);
 
-        _moveTargetPos = new Vector2((int)x, (int)y);
-
-        _moveDelta = (_moveTargetPos - _playerPos) * _moveSpeed;
-        */
+        _playerBody.AddForce(_targetDir * _moveSpeed, ForceMode2D.Impulse);
 
         //Console.Beep();
     }
