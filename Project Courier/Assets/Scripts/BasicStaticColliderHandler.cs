@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
 public class BasicStaticColliderHandler : MonoBehaviour
 {
     [SerializeField]
     private int _tileSize = 1;
 
+    [SerializeField]
     private Vector2 _innerArea = new Vector2(1, 1);
 
     private BoxCollider2D _northBox, _eastBox, _southBox, _westBox;
@@ -18,8 +18,6 @@ public class BasicStaticColliderHandler : MonoBehaviour
 
     private void Awake()
     {
-        _innerArea = gameObject.GetComponent<SpriteRenderer>().size;
-
         if (DirectionBoxes[0])
         {
             _northBox = gameObject.AddComponent<BoxCollider2D>();
