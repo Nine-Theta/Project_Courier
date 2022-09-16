@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7689398194342150337}
   - component: {fileID: 7101428902402858640}
+  - component: {fileID: -6649457147707521878}
   m_Layer: 0
   m_Name: BikeRoad
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,3 +85,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-6649457147707521878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6866706537903748434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5becf4ece6a014499e0271bc03c785f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _terraintype: 2
+  _walkSpeedMultiplier: 1
+  _bikeSpeedMultiplier: 1.5
