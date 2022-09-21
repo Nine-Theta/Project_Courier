@@ -11,7 +11,7 @@ public class ProtoPlayer4 : MonoBehaviour
 {
     [SerializeField]
     private float _baseMoveSpeed;
-    [SerializeField]private float _moveSpeed;
+    [SerializeField] private float _moveSpeed;
 
     private bool _isBiking = false;
 
@@ -21,6 +21,11 @@ public class ProtoPlayer4 : MonoBehaviour
     private Vector2 _nextTargetDir;
 
     private Rigidbody2D _playerBody;
+    [SerializeField]
+    private SpriteRenderer _playerSprite;
+    //private GameObject _interactable;
+
+    private static ProtoPlayer4 _playerInstance;
 
     private void Start()
     {
@@ -29,29 +34,53 @@ public class ProtoPlayer4 : MonoBehaviour
         _moveTargetPos = transform.position;
 
         _moveSpeed = _baseMoveSpeed;
+
+        if (_playerSprite == null)
+            _playerSprite = GetComponentInChildren<SpriteRenderer>();
+
+        if (_playerInstance == null)
+        {
+            _playerInstance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+            Destroy(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         _nextTargetDir = Vector2.zero;
         SetMoveDir(false);
-        Debug.Log("got bopped");
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Terrain")
+        switch (other.gameObject.tag)
         {
-            TerrainManager terrain = other.GetComponent<TerrainManager>();
+            case "Terrain":
+                {
+                    TerrainManager terrain = other.GetComponent<TerrainManager>();
+                    if (!_isBiking)
+                    {
+                        _moveSpeed = _baseMoveSpeed * terrain.WalkSpeedMultiplier;
+                        //Debug.Log("terrain " + terrain.Terraintype + ": " + _moveSpeed + " = " + _baseMoveSpeed + " * " + terrain.WalkSpeedMultiplier);
+                    }
+                }
+                break;
 
-            if (!_isBiking)
-            {
-                _moveSpeed = _baseMoveSpeed * terrain.WalkSpeedMultiplier;
-                Debug.Log("terrain " + terrain.Terraintype + ": " + _moveSpeed + " = " + _baseMoveSpeed + " * " + terrain.WalkSpeedMultiplier);
-            }
+            default:
+                break;
         }
     }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        switch (other.gameObject.tag)
+        {
+            default:
+                break;
+        }
+    }
 
     public void OnMove(InputValue pMoveVec)
     {
@@ -65,7 +94,7 @@ public class ProtoPlayer4 : MonoBehaviour
         {
             vec = new Vector2(0, Mathf.RoundToInt(vec.y));
         }
-   
+
         _nextTargetDir = vec;
 
         if (_targetDir == -vec)
@@ -74,11 +103,24 @@ public class ProtoPlayer4 : MonoBehaviour
         }
     }
 
+    private void OnInteract()
+    {
+        RaycastHit2D[] results = Physics2D.RaycastAll(transform.position, _playerSprite.transform.up, 1);
+
+        for (int i = 0; i < results.Length; i++)
+        {
+            if (results[i].collider.tag == "Interactable")
+            {
+                results[i].transform.gameObject.GetComponent<InteractableBase>().StartInteraction();
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
         //Debug.Log((_moveTargetPos - (Vector2)transform.position).sqrMagnitude);
 
-        if ((_moveTargetPos - (Vector2)transform.position).sqrMagnitude <= (0.005f*_moveSpeed))
+        if ((_moveTargetPos - (Vector2)transform.position).sqrMagnitude <= (0.005f * _moveSpeed))
         {
             SetMoveDir();
         }
@@ -96,11 +138,23 @@ public class ProtoPlayer4 : MonoBehaviour
         _moveTargetPos.x = Mathf.RoundToInt(_moveTargetPos.x);
         _moveTargetPos.y = Mathf.RoundToInt(_moveTargetPos.y);
 
+        Debug.Log(_targetDir.x + " " + _targetDir.y + " " + ((-_targetDir.x + (_targetDir.y * 2)) * 90));
+
+        Debug.Log(Quaternion.AngleAxis((-_targetDir.x + (_targetDir.y * 2)) * 90, Vector3.forward).eulerAngles + " " + (_targetDir.y! < 0));
+
         _playerBody.velocity = Vector2.zero;
 
-        Debug.Log("bep " + _playerBody.velocity);
 
         _playerBody.AddForce(_targetDir * _moveSpeed, ForceMode2D.Impulse);
+
+        //Sprite Rotation
+
+        if (_targetDir.x == _targetDir.y) return;
+
+        if ((_targetDir.y > 0))
+            _playerSprite.transform.rotation = Quaternion.AngleAxis(0, Vector3.forward);
+        else
+            _playerSprite.transform.rotation = Quaternion.AngleAxis((-_targetDir.x + (_targetDir.y * 2)) * 90, Vector3.forward);
 
         //Console.Beep();
     }
