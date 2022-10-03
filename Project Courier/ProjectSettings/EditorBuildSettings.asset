@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/Overworld.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/Scenes/New Scene.unity
+    path: Assets/Scenes/Dark Dimension.unity
     guid: d06b4b7cee42c354e907d916f3e1141f
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 31295f6dab24c2147a495a447d800480, type: 2}
