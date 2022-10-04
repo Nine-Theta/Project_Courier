@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "StageScriptable", menuName = "ScriptableObjects/ScriptableQuestStage")]
 public class ScriptableQuestStage : ScriptableObject
@@ -26,6 +28,9 @@ public class ScriptableQuestStage : ScriptableObject
 
     public byte StageNumber { get { return _stageNumber; } }
 
+    public event Action<ScriptableQuestStage> OnStageCompleted;
+
+
     public void Init(ScriptableQuestStage pPreviousStage, byte pStageNumber)
     {
         _previousStage = pPreviousStage;
@@ -37,7 +42,7 @@ public class ScriptableQuestStage : ScriptableObject
         if(_previousStage == null || _previousStage.Completed || _previousStage.Optional)
         {
             _completed = true;
+            OnStageCompleted.Invoke(this);
         }
     }
-
 }

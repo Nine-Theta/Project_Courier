@@ -20,6 +20,7 @@ public class ScriptableDialogue : ScriptableObject, IComparable<ScriptableDialog
     public string[] Dialogue { get { return _dialogue; } }
     public int CompareTo(ScriptableDialogue pDialogue)
     {
+        //TODO: check if sorting works correctly
         return _questStage.StageNumber.CompareTo(pDialogue.QuestStage.StageNumber);
     }
 }

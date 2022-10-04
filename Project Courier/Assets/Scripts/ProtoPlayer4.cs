@@ -25,7 +25,16 @@ public class ProtoPlayer4 : MonoBehaviour
     private SpriteRenderer _playerSprite;
     //private GameObject _interactable;
 
+    [SerializeField]
+    private Vector2 _offset = new Vector2(0, 1000);
+
     private static ProtoPlayer4 _playerInstance;
+
+    public float ChangeOffset
+    {
+        get { return _offset.x; }
+        set { _offset.x = value; }
+    }
 
     private void Start()
     {
@@ -131,16 +140,16 @@ public class ProtoPlayer4 : MonoBehaviour
         _targetDir = _nextTargetDir;
 
         if (pSetPos)
-            transform.position = _moveTargetPos;
+            transform.position = new Vector3(_moveTargetPos.x + (_offset.x*_offset.y), _moveTargetPos.y);
 
         _moveTargetPos = (Vector2)transform.position + _targetDir;
 
         _moveTargetPos.x = Mathf.RoundToInt(_moveTargetPos.x);
         _moveTargetPos.y = Mathf.RoundToInt(_moveTargetPos.y);
 
-        Debug.Log(_targetDir.x + " " + _targetDir.y + " " + ((-_targetDir.x + (_targetDir.y * 2)) * 90));
+        //Debug.Log(_targetDir.x + " " + _targetDir.y + " " + ((-_targetDir.x + (_targetDir.y * 2)) * 90));
 
-        Debug.Log(Quaternion.AngleAxis((-_targetDir.x + (_targetDir.y * 2)) * 90, Vector3.forward).eulerAngles + " " + (_targetDir.y! < 0));
+        //Debug.Log(Quaternion.AngleAxis((-_targetDir.x + (_targetDir.y * 2)) * 90, Vector3.forward).eulerAngles + " " + (_targetDir.y! < 0));
 
         _playerBody.velocity = Vector2.zero;
 

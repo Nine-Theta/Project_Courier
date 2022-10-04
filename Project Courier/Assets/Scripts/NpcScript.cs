@@ -41,7 +41,7 @@ public class NpcScript : InteractableBase
 
         QuestIDs[] ids = _supportedQuests.Keys.ToArray();
 
-        ScriptableDialogue outputText = RandomDialogues[Random.Range(0, RandomDialogues.Count - 1)];
+        ScriptableDialogue outputText = RandomDialogues[Random.Range(0, RandomDialogues.Count)];
 
         for (int i = 0; i < _supportedQuests.Count; i++)
         {
@@ -57,9 +57,15 @@ public class NpcScript : InteractableBase
             }
         }
 
+        DisplayDialogue(outputText.Dialogue);
+    }
 
-
-        Debug.Log(_npcName + ": " + outputText.Dialogue);
+    private void DisplayDialogue(string[] dialogue)
+    {
+        foreach(string s in dialogue)
+        {
+            Debug.Log(_npcName + ": " + s);
+        }
     }
 
     public override void EndInteraction()
@@ -69,6 +75,10 @@ public class NpcScript : InteractableBase
     public List<ScriptableDialogue> RandomDialogues;
 
     public List<ScriptableDialogue> QuestDialogues;
+
+    public List<ScriptableDialogue> PostQuestCompletionDialogues;
+
+    //TODO: dialogue that gets added to the random pool after quests get completed.
 
 
 }

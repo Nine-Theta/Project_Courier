@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum QuestIDs { Default, MQ_1 }
 
@@ -45,7 +46,28 @@ public class GlobalQuestManager : MonoBehaviour
                     break;
             }
 
+            Quests[i].OnActive.AddListener(HandleQuestActivated(Quests[i].ID));
+            Quests[i].OnComplete.AddListener(HandleQuestCompleted(Quests[i].ID));
+
         }
+    }
+
+    public UnityAction HandleQuestActivated(QuestIDs pID)
+    {
+        if (!SetQuestActive(pID))
+        {
+            Debug.LogError("Something Went wrong activating the quest");
+        }
+        return null;
+    }
+
+    public UnityAction HandleQuestCompleted(QuestIDs pID)
+    {
+        if (!SetQuestComplete(pID))
+        {
+            Debug.LogError("Something Went wrong completing the quest");
+        }
+        return null;
     }
 
     public bool SetQuestActive(QuestIDs pID)
