@@ -9,10 +9,14 @@ public class WorldManager : MonoBehaviour
 
     private GlobalQuestManager _questManager;
 
+    private GlobalUIHandler _uiHandler;
+
 
     public static WorldManager Instance { get { return _instance; } }
 
     public GlobalQuestManager QuestManager { get { return _questManager; } }
+
+    public GlobalUIHandler UIHandler { get { return _uiHandler; } }
 
     private void Awake()
     {
@@ -20,5 +24,6 @@ public class WorldManager : MonoBehaviour
         else _instance = this;
 
         _questManager = GetComponent<GlobalQuestManager>();
+        _uiHandler = GetComponent<GlobalUIHandler>();
     }
 }

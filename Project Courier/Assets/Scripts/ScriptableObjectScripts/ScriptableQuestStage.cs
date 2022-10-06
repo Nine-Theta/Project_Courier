@@ -15,7 +15,7 @@ public class ScriptableQuestStage : ScriptableObject
 
     [SerializeField, Multiline]
     private string _stageDescription;
-
+    [SerializeField]
     private bool _completed = false;
 
     private ScriptableQuestStage _previousStage = null;

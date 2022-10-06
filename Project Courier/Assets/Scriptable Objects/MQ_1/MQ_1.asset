@@ -7,20 +7,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0432dca45f5352f45af4b10189ed6559, type: 3}
-  m_Name: ScriptQuest 1
+  m_Name: MQ_1
   m_EditorClassIdentifier: 
-  _id: 0
-  _questName: Lorem Ipsum
-  _moneyReward: 1
+  _id: 1
+  _questName: And so it begins
+  _moneyReward: 3.5
   Stages:
   - {fileID: 11400000, guid: e776b40c54e56af49963cb894dca3e1f, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 52236354d81f259498ec5b6d2937c621, type: 2}
+  - {fileID: 11400000, guid: 1a42f241ec8053e4fbe1bf4fcc4078d2, type: 2}
   OnActive:
     m_PersistentCalls:
       m_Calls: []

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class NpcScript : InteractableBase
 {
@@ -9,10 +10,13 @@ public class NpcScript : InteractableBase
     private string _npcName = "Dummy";
 
     private GlobalQuestManager _questManager;
+    private GlobalUIHandler _uiHandler;
 
     public string NPCName { get { return _npcName; } }
 
     private Dictionary<QuestIDs, List<ScriptableDialogue>> _supportedQuests = new Dictionary<QuestIDs, List<ScriptableDialogue>>();
+
+    public UnityEvent<NpcScript> OnInteractionStart;
 
     private void Awake()
     {
@@ -29,14 +33,14 @@ public class NpcScript : InteractableBase
 
     private void Start()
     {
-        if(_questManager == null)
-        {
-            _questManager = WorldManager.Instance.QuestManager;
-        }
+        if(_questManager == null) { _questManager = WorldManager.Instance.QuestManager; }
+        if(_uiHandler == null) { _uiHandler = WorldManager.Instance.UIHandler; }
     }
 
     public override void StartInteraction()
     {
+        OnInteractionStart.Invoke(this);
+
         Debug.Log("Interaction Started");
 
         QuestIDs[] ids = _supportedQuests.Keys.ToArray();
@@ -60,12 +64,16 @@ public class NpcScript : InteractableBase
         DisplayDialogue(outputText.Dialogue);
     }
 
-    private void DisplayDialogue(string[] dialogue)
+
+
+    private void DisplayDialogue(string[] pDialogue)
     {
-        foreach(string s in dialogue)
+        foreach(string s in pDialogue)
         {
             Debug.Log(_npcName + ": " + s);
         }
+
+        _uiHandler.StartDialogue(pDialogue);
     }
 
     public override void EndInteraction()

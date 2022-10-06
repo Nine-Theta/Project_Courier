@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1809467243103568836}
   - component: {fileID: 809867368323782294}
   - component: {fileID: 1809467243103568837}
+  - component: {fileID: 7603654432643835694}
   m_Layer: 0
   m_Name: WorldObject
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &809867368323782294
 MonoBehaviour:
@@ -58,3 +59,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Quests: []
+--- !u!114 &7603654432643835694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809467243103568838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9df2c9d72db2cab4ba25a2cf7a1a180e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 0}
