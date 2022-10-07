@@ -32,14 +32,18 @@ public class ScriptableQuest : ScriptableObject
 
     public bool IsActive { get { return (_currentStage > 0 && _currentStage < 255); } }
 
-    private void Awake()
+    private void OnEnable()
     {
-        for(int i = Stages.Length-1; i> 0; i--)
+        //Reset Values to default
+
+        _currentStage = 0;
+
+        for (int i = Stages.Length-1; i> 0; i--)
         {
             Stages[i].Init(Stages[i - 1], (byte)i);
-            Stages[i].OnStageCompleted += HandleStageComplete;
+            Stages[i].OnStageCompleted.AddListener(HandleStageComplete);
         }
-        Stages[0].OnStageCompleted += HandleStageComplete;
+        Stages[0].OnStageCompleted.AddListener(HandleStageComplete);
     }
 
     private void HandleStageComplete(ScriptableQuestStage pStage)

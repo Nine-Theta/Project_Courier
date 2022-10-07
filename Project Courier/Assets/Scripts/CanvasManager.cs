@@ -14,15 +14,19 @@ public class CanvasManager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI _dialogueText;
-    private int _dialogueIndex = 0;
+
+    [SerializeField]
+    private UIManagerScriptable _uiHandler;
 
     private string[] _dialogue;
+    private int _dialogueIndex = 0;
 
     private void Awake()
     {
         {
             _dialogueBox.SetActive(false);
             _eventSystem.gameObject.SetActive(false);
+            _uiHandler.OnStartDialogue.AddListener(InitializeDialogue);
         }
     }
 
@@ -59,6 +63,7 @@ public class CanvasManager : MonoBehaviour
         _eventSystem.gameObject.SetActive(false);
 
         _dialogueIndex = 0;
-        _dialogue = null;
+
+        _uiHandler.StopUI();
     }
 }

@@ -6,12 +6,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(PlayerInput))]
 public class ProtoPlayer4 : MonoBehaviour
 {
     [SerializeField]
     private float _baseMoveSpeed;
-    [SerializeField] private float _moveSpeed;
+
+    [SerializeField]
+    private float _moveSpeed;
+
+    [SerializeField]
+    private UIManagerScriptable _uiManager;
 
     private bool _isBiking = false;
 
@@ -21,6 +26,8 @@ public class ProtoPlayer4 : MonoBehaviour
     private Vector2 _nextTargetDir;
 
     private Rigidbody2D _playerBody;
+    private PlayerInput _playerInput;
+
     [SerializeField]
     private SpriteRenderer _playerSprite;
     //private GameObject _interactable;
@@ -39,6 +46,9 @@ public class ProtoPlayer4 : MonoBehaviour
     private void Start()
     {
         _playerBody = GetComponent<Rigidbody2D>();
+        _playerInput = GetComponent<PlayerInput>();
+
+        _uiManager.SwitchInputMap.AddListener(SwitchInputMap);
 
         _moveTargetPos = transform.position;
 
@@ -91,26 +101,6 @@ public class ProtoPlayer4 : MonoBehaviour
         }
     }
 
-    public void OnMove(InputValue pMoveVec)
-    {
-        Vector2 vec = pMoveVec.Get<Vector2>();
-
-        if (Mathf.Abs(vec.x) > Mathf.Abs(vec.y))
-        {
-            vec = new Vector2(Mathf.RoundToInt(vec.x), 0);
-        }
-        else
-        {
-            vec = new Vector2(0, Mathf.RoundToInt(vec.y));
-        }
-
-        _nextTargetDir = vec;
-
-        if (_targetDir == -vec)
-        {
-            SetMoveDir(false);
-        }
-    }
 
     private void OnInteract()
     {
@@ -125,22 +115,12 @@ public class ProtoPlayer4 : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        //Debug.Log((_moveTargetPos - (Vector2)transform.position).sqrMagnitude);
-
-        if ((_moveTargetPos - (Vector2)transform.position).sqrMagnitude <= (0.005f * _moveSpeed))
-        {
-            SetMoveDir();
-        }
-    }
-
     private void SetMoveDir(bool pSetPos = true)
     {
         _targetDir = _nextTargetDir;
 
         if (pSetPos)
-            transform.position = new Vector3(_moveTargetPos.x + (_offset.x*_offset.y), _moveTargetPos.y);
+            transform.position = new Vector3(_moveTargetPos.x + (_offset.x * _offset.y), _moveTargetPos.y);
 
         _moveTargetPos = (Vector2)transform.position + _targetDir;
 
@@ -166,5 +146,42 @@ public class ProtoPlayer4 : MonoBehaviour
             _playerSprite.transform.rotation = Quaternion.AngleAxis((-_targetDir.x + (_targetDir.y * 2)) * 90, Vector3.forward);
 
         //Console.Beep();
+    }
+
+    private void SwitchInputMap(string pMapName)
+    {
+        _playerInput.SwitchCurrentActionMap(pMapName);
+    }
+
+    private void FixedUpdate()
+    {
+        //Debug.Log((_moveTargetPos - (Vector2)transform.position).sqrMagnitude);
+
+        if ((_moveTargetPos - (Vector2)transform.position).sqrMagnitude <= (0.005f * _moveSpeed))
+        {
+            SetMoveDir();
+        }
+    }
+
+
+    public void OnMove(InputValue pMoveVec)
+    {
+        Vector2 vec = pMoveVec.Get<Vector2>();
+
+        if (Mathf.Abs(vec.x) > Mathf.Abs(vec.y))
+        {
+            vec = new Vector2(Mathf.RoundToInt(vec.x), 0);
+        }
+        else
+        {
+            vec = new Vector2(0, Mathf.RoundToInt(vec.y));
+        }
+
+        _nextTargetDir = vec;
+
+        if (_targetDir == -vec)
+        {
+            SetMoveDir(false);
+        }
     }
 }

@@ -152,6 +152,10 @@ PrefabInstance:
       value: NPC_Test
       objectReference: {fileID: 0}
     - target: {fileID: 4706447008450609583, guid: 422d0ce47da4d7f4a87a6e0582735618, type: 3}
+      propertyPath: _uiHandler
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b77e0d0a2dd12d4cb965d778c4523b0, type: 2}
+    - target: {fileID: 4706447008450609583, guid: 422d0ce47da4d7f4a87a6e0582735618, type: 3}
       propertyPath: QuestDialogues.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -344,6 +348,7 @@ MonoBehaviour:
   _eventSystem: {fileID: 1774836323}
   _dialogueBox: {fileID: 1646188193}
   _dialogueText: {fileID: 1619766870}
+  _uiHandler: {fileID: 11400000, guid: 5b77e0d0a2dd12d4cb965d778c4523b0, type: 2}
 --- !u!114 &159145998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -634,7 +639,7 @@ MonoBehaviour:
     _json: '{"declarations":{"Kind":"Object","collection":{"$content":[{"name":"QuestName","value":{"$content":"Test
       Quest","$type":"System.String"},"typeHandle":{"Identification":"System.String,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089","$version":"A"},"$version":"A"},{"name":"QuestID","value":null,"typeHandle":{"Identification":"GlobalQuestManager+QuestIDs,
-      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"},{"name":"QuestObject","value":{"name":null,"stage":0,"$type":"QuestObject"},"typeHandle":{"Identification":"QuestObject,
+      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"},{"name":"QuestObject","value":null,"typeHandle":{"Identification":"QuestObject,
       Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"}}'
     _objectReferences: []
 --- !u!4 &298583610
@@ -686,6 +691,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseMoveSpeed: 4
   _moveSpeed: 36.22
+  _uiManager: {fileID: 11400000, guid: 5b77e0d0a2dd12d4cb965d778c4523b0, type: 2}
   _playerSprite: {fileID: 224338515}
   _offset: {x: 0, y: 1000}
 --- !u!50 &306665391
@@ -1068,17 +1074,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Asset: {fileID: -944628639613478452, guid: 6b1ea5752d1e0cf4998d970b28ab3490, type: 3}
   m_ActionId: b32d62fe-d3f3-48c9-832b-dda8e0f2bc05
---- !u!114 &756887410 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1809467243103568837, guid: 799932fe158090341b082726d5eac8c8, type: 3}
-  m_PrefabInstance: {fileID: 1809467242752634039}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef860b664113f524c994eb0be7450d95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &800241591
 GameObject:
   m_ObjectHideFlags: 0
@@ -1325,7 +1320,7 @@ MonoBehaviour:
     _json: '{"declarations":{"Kind":"Scene","collection":{"$content":[{"name":"QuestManager","value":{"$content":0,"$type":"UnityEngine.Object"},"typeHandle":{"Identification":"GlobalQuestManager,
       Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"}}'
     _objectReferences:
-    - {fileID: 756887410}
+    - {fileID: 0}
 --- !u!4 &1010914107
 Transform:
   m_ObjectHideFlags: 0
@@ -2063,7 +2058,14 @@ PrefabInstance:
       propertyPath: _canvas
       value: 
       objectReference: {fileID: 159145997}
+    - target: {fileID: 7603654432643835694, guid: 799932fe158090341b082726d5eac8c8, type: 3}
+      propertyPath: _playerInput
+      value: 
+      objectReference: {fileID: 306665393}
     m_RemovedComponents:
     - {fileID: 7798121813761910922, guid: 799932fe158090341b082726d5eac8c8, type: 3}
+    - {fileID: 1809467243103568837, guid: 799932fe158090341b082726d5eac8c8, type: 3}
+    - {fileID: 809867368323782294, guid: 799932fe158090341b082726d5eac8c8, type: 3}
+    - {fileID: 7603654432643835694, guid: 799932fe158090341b082726d5eac8c8, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 799932fe158090341b082726d5eac8c8, type: 3}

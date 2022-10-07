@@ -9,12 +9,16 @@ public class NpcScript : InteractableBase
     [SerializeField]
     private string _npcName = "Dummy";
 
-    private GlobalQuestManager _questManager;
-    private GlobalUIHandler _uiHandler;
+    [SerializeField]
+    private QuestManagerScriptable _questManager;
+
+    [SerializeField]
+    private UIManagerScriptable _uiHandler;
 
     public string NPCName { get { return _npcName; } }
 
     private Dictionary<QuestIDs, List<ScriptableDialogue>> _supportedQuests = new Dictionary<QuestIDs, List<ScriptableDialogue>>();
+    private List<QuestIDs> _questStarters = new List<QuestIDs>();
 
     public UnityEvent<NpcScript> OnInteractionStart;
 
@@ -22,6 +26,11 @@ public class NpcScript : InteractableBase
     {
         for(int i = 0; i < QuestDialogues.Count; i++)
         {
+            if (QuestDialogues[i].QuestStage.StageNumber == 0)
+            {
+                _questStarters.Add(QuestDialogues[i].ID);
+            }
+
             if (!_supportedQuests.ContainsKey(QuestDialogues[i].ID))
             {
                 _supportedQuests.Add(QuestDialogues[i].ID, new List<ScriptableDialogue>());
@@ -33,8 +42,7 @@ public class NpcScript : InteractableBase
 
     private void Start()
     {
-        if(_questManager == null) { _questManager = WorldManager.Instance.QuestManager; }
-        if(_uiHandler == null) { _uiHandler = WorldManager.Instance.UIHandler; }
+
     }
 
     public override void StartInteraction()
@@ -49,6 +57,15 @@ public class NpcScript : InteractableBase
 
         for (int i = 0; i < _supportedQuests.Count; i++)
         {
+            if (_questStarters.Contains(ids[i]))
+            {
+                outputText = _supportedQuests[ids[i]].First();
+                _supportedQuests[ids[i]].First().QuestStage.CompleteStage();
+                _supportedQuests[ids[i]].RemoveAt(0);
+                if (_supportedQuests[ids[i]].Count <= 0) _supportedQuests.Remove(ids[i]);
+                break;
+            }
+
             if (_questManager.QuestsActive.ContainsKey(ids[i]))
             {
                 if (_questManager.QuestsActive[ids[i]].CurrentStage >= _supportedQuests[ids[i]].First().QuestStage.StageNumber)
@@ -73,7 +90,7 @@ public class NpcScript : InteractableBase
             Debug.Log(_npcName + ": " + s);
         }
 
-        _uiHandler.StartDialogue(pDialogue);
+        _uiHandler.ShowDialogue(pDialogue);
     }
 
     public override void EndInteraction()

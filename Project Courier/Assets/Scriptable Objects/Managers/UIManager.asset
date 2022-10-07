@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 329d45cbb9d7bfd4598847679e3ddb87, type: 3}
-  m_Name: 0 Get Quest
+  m_Script: {fileID: 11500000, guid: 6f2cf5e07676c2c4b8cbd85a31a0058c, type: 3}
+  m_Name: UIManager
   m_EditorClassIdentifier: 
-  _stageName: Get Quest
-  _optional: 0
-  _stageDescription: 
-  _completed: 1
-  OnStageCompleted:
+  PlayerInputMapName: Player
+  UIInputMapName: UI
+  SwitchInputMap:
+    m_PersistentCalls:
+      m_Calls: []
+  StartDialogue:
     m_PersistentCalls:
       m_Calls: []

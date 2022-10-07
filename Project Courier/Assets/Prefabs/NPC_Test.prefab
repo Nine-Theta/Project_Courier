@@ -158,6 +158,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interactionTrigger: {fileID: 0}
   _npcName: Dummy
+  _questManager: {fileID: 11400000, guid: b3b0e2bf433005245be7d847d6219edc, type: 2}
+  OnInteractionStart:
+    m_PersistentCalls:
+      m_Calls: []
   RandomDialogues:
   - {fileID: 0}
   - {fileID: 0}

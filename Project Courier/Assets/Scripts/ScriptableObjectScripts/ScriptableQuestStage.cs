@@ -23,13 +23,21 @@ public class ScriptableQuestStage : ScriptableObject
     private byte _stageNumber = 0;
 
     public bool Completed { get { return _completed; } }
-    
+
     public bool Optional { get { return _optional; } }
 
     public byte StageNumber { get { return _stageNumber; } }
 
-    public event Action<ScriptableQuestStage> OnStageCompleted;
+    public UnityEvent<ScriptableQuestStage> OnStageCompleted;
 
+    private void OnEnable()
+    {
+        //Reset Values to default
+
+        _completed = false;
+
+        if (OnStageCompleted == null) OnStageCompleted = new UnityEvent<ScriptableQuestStage>();
+    }
 
     public void Init(ScriptableQuestStage pPreviousStage, byte pStageNumber)
     {
@@ -39,7 +47,7 @@ public class ScriptableQuestStage : ScriptableObject
 
     public void CompleteStage()
     {
-        if(_previousStage == null || _previousStage.Completed || _previousStage.Optional)
+        if (_completed == false && (_previousStage == null || _previousStage.Completed || _previousStage.Optional))
         {
             _completed = true;
             OnStageCompleted.Invoke(this);

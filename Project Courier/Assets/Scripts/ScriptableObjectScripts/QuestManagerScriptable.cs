@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +5,8 @@ using UnityEngine.Events;
 
 public enum QuestIDs { Default, MQ_1 }
 
-public class GlobalQuestManager : MonoBehaviour
+[CreateAssetMenu(fileName = "QuestManager", menuName = "ScriptableObjects/Managers/QuestManagerScriptable")]
+public class QuestManagerScriptable : ScriptableObject
 {
     private static Dictionary<QuestIDs, ScriptableQuest> _questsBacklog;
     private static Dictionary<QuestIDs, ScriptableQuest> _questsActive;
@@ -16,7 +16,12 @@ public class GlobalQuestManager : MonoBehaviour
     public Dictionary<QuestIDs, ScriptableQuest> QuestsActive { get { return _questsActive; } }
     public Dictionary<QuestIDs, ScriptableQuest> QuestsComplete { get { return _questsComplete; } }
 
-    private void Awake()
+    [HideInInspector]
+    public UnityEvent<QuestIDs> QuestActivated;
+    [HideInInspector]
+    public UnityEvent<QuestIDs> QuestCompleted;
+
+    private void OnEnable()
     {
         if (_questsBacklog == null)
         {
@@ -31,7 +36,10 @@ public class GlobalQuestManager : MonoBehaviour
         _questsActive = new Dictionary<QuestIDs, ScriptableQuest>();
         _questsComplete = new Dictionary<QuestIDs, ScriptableQuest>();
 
-        for(int i = 0; i < Quests.Count; i++)
+        if(QuestActivated == null) QuestActivated = new UnityEvent<QuestIDs>();
+        if(QuestCompleted == null) QuestCompleted = new UnityEvent<QuestIDs>();
+
+        for (int i = 0; i < Quests.Count; i++)
         {
             switch (Quests[i].CurrentStage)
             {
@@ -48,7 +56,6 @@ public class GlobalQuestManager : MonoBehaviour
 
             Quests[i].OnActive.AddListener(HandleQuestActivated(Quests[i].ID));
             Quests[i].OnComplete.AddListener(HandleQuestCompleted(Quests[i].ID));
-
         }
     }
 
@@ -58,6 +65,11 @@ public class GlobalQuestManager : MonoBehaviour
         {
             Debug.LogError("Something Went wrong activating the quest");
         }
+        else
+        {
+            QuestActivated.Invoke(pID);
+        }
+
         return null;
     }
 
@@ -67,6 +79,11 @@ public class GlobalQuestManager : MonoBehaviour
         {
             Debug.LogError("Something Went wrong completing the quest");
         }
+        else
+        {
+            QuestCompleted.Invoke(pID);
+        }
+
         return null;
     }
 
