@@ -8,6 +8,7 @@ public enum QuestIDs { Default, MQ_1 }
 [CreateAssetMenu(fileName = "QuestManager", menuName = "ScriptableObjects/Managers/QuestManagerScriptable")]
 public class QuestManagerScriptable : ScriptableObject
 {
+    [SerializeField]
     private static Dictionary<QuestIDs, ScriptableQuest> _questsBacklog;
     private static Dictionary<QuestIDs, ScriptableQuest> _questsActive;
     private static Dictionary<QuestIDs, ScriptableQuest> _questsComplete;
@@ -28,6 +29,12 @@ public class QuestManagerScriptable : ScriptableObject
             //TODO: Save & Load Quest progress to file
             Init();
         }
+    }
+
+    private void OnDisable()
+    {
+        QuestActivated.RemoveAllListeners();
+        QuestCompleted.RemoveAllListeners();
     }
 
     private void Init()

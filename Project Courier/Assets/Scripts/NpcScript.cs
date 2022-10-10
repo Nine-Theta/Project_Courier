@@ -15,10 +15,15 @@ public class NpcScript : InteractableBase
     [SerializeField]
     private UIManagerScriptable _uiHandler;
 
-    public string NPCName { get { return _npcName; } }
+    [SerializeField]
+    private Color _npcColor = Color.magenta;
+    [SerializeField]
+    private Color _npcSpeechColor = Color.magenta;
 
     private Dictionary<QuestIDs, List<ScriptableDialogue>> _supportedQuests = new Dictionary<QuestIDs, List<ScriptableDialogue>>();
     private List<QuestIDs> _questStarters = new List<QuestIDs>();
+
+    public string NPCName { get { return _npcName; } }
 
     public UnityEvent<NpcScript> OnInteractionStart;
 
@@ -38,6 +43,11 @@ public class NpcScript : InteractableBase
             _supportedQuests[QuestDialogues[i].ID].Add(QuestDialogues[i]);
             _supportedQuests[QuestDialogues[i].ID].Sort();
         }
+    }
+
+    private void OnEnable()
+    {
+        if (OnInteractionStart == null) OnInteractionStart = new UnityEvent<NpcScript>();
     }
 
     private void Start()
@@ -90,7 +100,7 @@ public class NpcScript : InteractableBase
             Debug.Log(_npcName + ": " + s);
         }
 
-        _uiHandler.ShowDialogue(pDialogue);
+        _uiHandler.ShowDialogue(new NpcDialogue(_npcName, pDialogue, _npcColor, _npcSpeechColor));
     }
 
     public override void EndInteraction()

@@ -11,16 +11,16 @@ public class UIManagerScriptable : ScriptableObject
     [SerializeField] private string UIInputMapName;
 
     [HideInInspector] public UnityEvent<string> SwitchInputMap;
-    [HideInInspector] public UnityEvent<string[]> OnStartDialogue;
+    [HideInInspector] public UnityEvent<NpcDialogue> OnStartDialogue;
 
 
     private void OnEnable()
     {
         if (SwitchInputMap == null) SwitchInputMap = new UnityEvent<string>();
-        if (OnStartDialogue == null) OnStartDialogue = new UnityEvent<string[]>();
+        if (OnStartDialogue == null) OnStartDialogue = new UnityEvent<NpcDialogue>();
     }
 
-    public void ShowDialogue(string[] pDialogue)
+    public void ShowDialogue(NpcDialogue pDialogue)
     {
         OnStartDialogue.Invoke(pDialogue);
         StartUI();

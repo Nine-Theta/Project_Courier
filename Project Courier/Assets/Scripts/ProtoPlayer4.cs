@@ -45,6 +45,15 @@ public class ProtoPlayer4 : MonoBehaviour
 
     private void Start()
     {
+        if (_playerInstance == null)
+        {
+            _playerInstance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+            Destroy(gameObject);
+
+
         _playerBody = GetComponent<Rigidbody2D>();
         _playerInput = GetComponent<PlayerInput>();
 
@@ -56,14 +65,6 @@ public class ProtoPlayer4 : MonoBehaviour
 
         if (_playerSprite == null)
             _playerSprite = GetComponentInChildren<SpriteRenderer>();
-
-        if (_playerInstance == null)
-        {
-            _playerInstance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-            Destroy(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

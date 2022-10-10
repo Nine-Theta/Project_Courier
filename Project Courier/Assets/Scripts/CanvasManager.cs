@@ -14,11 +14,13 @@ public class CanvasManager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI _dialogueText;
+    [SerializeField]
+    private TextMeshProUGUI _nameText;
 
     [SerializeField]
     private UIManagerScriptable _uiHandler;
 
-    private string[] _dialogue;
+    private NpcDialogue _dialogue = new NpcDialogue("default", new string[] {"lorem", "ipsum"}, Color.magenta, Color.magenta);
     private int _dialogueIndex = 0;
 
     private void Awake()
@@ -30,31 +32,36 @@ public class CanvasManager : MonoBehaviour
         }
     }
 
-    public void InitializeDialogue(string[] pDialogue)
+    public void InitializeDialogue(NpcDialogue pDialogue)
     {
         _dialogueBox.SetActive(true);
         _eventSystem.gameObject.SetActive(true);
 
         _dialogue = pDialogue;
-        DisplayText(pDialogue[0]);
+        DisplayText(pDialogue.NpcName, pDialogue.Dialogue[0], pDialogue.NameColor, pDialogue.DialogueColor);
     }
 
-    private void DisplayText(string pSentence)
+    private void DisplayText(string pSentence) { DisplayText(_dialogue.NpcName, pSentence, _dialogue.NameColor, _dialogue.DialogueColor); }
+    private void DisplayText(string pName, string pSentence, Color pNameColor, Color pDialogueColor)
     {
+        _nameText.text = pName;
+        _nameText.color = pDialogueColor;
+
         _dialogueText.text = pSentence;
+        _dialogueText.color = pDialogueColor;
     }
 
     public void ProgressDialogue()
     {
-        if (_dialogueIndex >= _dialogue.Length-1)
+        if (_dialogueIndex >= _dialogue.Dialogue.Length - 1)
         {
             CloseDialogue();
         }
         else
         {
             _dialogueIndex++;
-            DisplayText(_dialogue[_dialogueIndex]);
-        }      
+            DisplayText(_dialogue.Dialogue[_dialogueIndex]);
+        }
     }
 
     public void CloseDialogue()
