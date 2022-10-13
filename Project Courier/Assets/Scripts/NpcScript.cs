@@ -21,7 +21,6 @@ public class NpcScript : InteractableBase
     private Color _npcSpeechColor = Color.magenta;
 
     private Dictionary<QuestIDs, List<ScriptableDialogue>> _supportedQuests = new Dictionary<QuestIDs, List<ScriptableDialogue>>();
-    private List<QuestIDs> _questStarters = new List<QuestIDs>();
 
     public string NPCName { get { return _npcName; } }
 
@@ -29,19 +28,14 @@ public class NpcScript : InteractableBase
 
     private void Awake()
     {
-        for(int i = 0; i < QuestDialogues.Count; i++)
+        for (int i = 0; i < _questDialogues.Count; i++)
         {
-            if (QuestDialogues[i].QuestStage.StageNumber == 0)
+            if (!_supportedQuests.ContainsKey(_questDialogues[i].ID))
             {
-                _questStarters.Add(QuestDialogues[i].ID);
+                _supportedQuests.Add(_questDialogues[i].ID, new List<ScriptableDialogue>());
             }
-
-            if (!_supportedQuests.ContainsKey(QuestDialogues[i].ID))
-            {
-                _supportedQuests.Add(QuestDialogues[i].ID, new List<ScriptableDialogue>());
-            }
-            _supportedQuests[QuestDialogues[i].ID].Add(QuestDialogues[i]);
-            _supportedQuests[QuestDialogues[i].ID].Sort();
+            _supportedQuests[_questDialogues[i].ID].Add(_questDialogues[i]);
+            _supportedQuests[_questDialogues[i].ID].Sort();
         }
     }
 
@@ -63,19 +57,18 @@ public class NpcScript : InteractableBase
 
         QuestIDs[] ids = _supportedQuests.Keys.ToArray();
 
-        ScriptableDialogue outputText = RandomDialogues[Random.Range(0, RandomDialogues.Count)];
+        ScriptableDialogue outputText = _randomDialogues[Random.Range(0, _randomDialogues.Count)];
+
+        for(int i = 0; i < _questStarters.Count; i++)
+        {
+            if (_questStarters[i].CanStart)
+            {
+
+            }
+        }
 
         for (int i = 0; i < _supportedQuests.Count; i++)
         {
-            if (_questStarters.Contains(ids[i]))
-            {
-                outputText = _supportedQuests[ids[i]].First();
-                _supportedQuests[ids[i]].First().QuestStage.CompleteStage();
-                _supportedQuests[ids[i]].RemoveAt(0);
-                if (_supportedQuests[ids[i]].Count <= 0) _supportedQuests.Remove(ids[i]);
-                break;
-            }
-
             if (_questManager.QuestsActive.ContainsKey(ids[i]))
             {
                 if (_questManager.QuestsActive[ids[i]].CurrentStage >= _supportedQuests[ids[i]].First().QuestStage.StageNumber)
@@ -91,11 +84,16 @@ public class NpcScript : InteractableBase
         DisplayDialogue(outputText.Dialogue);
     }
 
+    private void RemoveStageFromList(ScriptableQuestStage pStage)
+    {
+
+    }
+
 
 
     private void DisplayDialogue(string[] pDialogue)
     {
-        foreach(string s in pDialogue)
+        foreach (string s in pDialogue)
         {
             Debug.Log(_npcName + ": " + s);
         }
@@ -105,13 +103,19 @@ public class NpcScript : InteractableBase
 
     public override void EndInteraction()
     {
+
     }
 
-    public List<ScriptableDialogue> RandomDialogues;
 
-    public List<ScriptableDialogue> QuestDialogues;
+    [SerializeField] private List<ScriptableQuestStarter> _questStarters;
 
-    public List<ScriptableDialogue> PostQuestCompletionDialogues;
+    [Header("Dialogues")]
+
+    [SerializeField] private List<ScriptableDialogue> _randomDialogues;
+
+    [SerializeField] private List<ScriptableDialogue> _questDialogues;
+
+    [SerializeField] private List<ScriptableDialogue> _postQuestCompletionDialogues;
 
     //TODO: dialogue that gets added to the random pool after quests get completed.
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "DialogueScriptable", menuName = "ScriptableObjects/ScriptableDialogue")]
+[CreateAssetMenu(fileName = "DialogueScriptable", menuName = "ScriptableObjects/Dialogue")]
 public class ScriptableDialogue : ScriptableObject, IComparable<ScriptableDialogue>
 {
     [SerializeField]

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public enum QuestIDs { Default, MQ_1 }
 
-[CreateAssetMenu(fileName = "QuestManager", menuName = "ScriptableObjects/Managers/QuestManagerScriptable")]
+[CreateAssetMenu(fileName = "QuestManager", menuName = "ScriptableObjects/Managers/QuestManager")]
 public class QuestManagerScriptable : ScriptableObject
 {
     [SerializeField]

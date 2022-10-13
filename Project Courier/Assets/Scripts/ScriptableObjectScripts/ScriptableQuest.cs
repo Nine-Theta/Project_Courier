@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "ScriptQuest", menuName = "ScriptableObjects/ScriptableQuest")]
+[CreateAssetMenu(fileName = "ScriptQuest", menuName = "ScriptableObjects/Quest")]
 public class ScriptableQuest : ScriptableObject
 {
     [SerializeField]
@@ -34,13 +34,24 @@ public class ScriptableQuest : ScriptableObject
 
     public bool IsActive { get { return (_currentStage > 0 && _currentStage < 255); } }
 
+    private void Awake()
+    {
+        Debug.LogWarning("awake");
+    }
+
     private void OnEnable()
     {
         //Reset Values to default
 
+        Debug.LogWarning("enable");
+
         _currentStage = 0;
 
-        if(OnActive == null) OnActive = new UnityEvent();
+        if (OnActive == null)
+        {
+            OnActive = new UnityEvent();
+            Debug.LogWarning("init oa");
+        }
         if(OnComplete == null) OnComplete = new UnityEvent();
 
         for (int i = Stages.Length-1; i> 0; i--)
@@ -63,13 +74,18 @@ public class ScriptableQuest : ScriptableObject
 
     private void HandleStageComplete(ScriptableQuestStage pStage)
     {
-        Debug.LogError(OnActive.);
+        //Debug.LogError(OnActive.);
 
         _currentStage = (byte)(pStage.StageNumber+1);
 
         try
         {
-            if (pStage.StageNumber == 0) OnActive.Invoke();
+            Debug.LogWarning("try");
+            if (pStage.StageNumber == 0)
+            {
+                Debug.LogWarning("if");
+                OnActive.Invoke();
+            }
         }
         catch(NullReferenceException e)
         {

@@ -88,10 +88,12 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.cinemachine": {
-      "version": "2.8.6",
-      "depth": 1,
+      "version": "2.8.9",
+      "depth": 0,
       "source": "registry",
-      "dependencies": {},
+      "dependencies": {
+        "com.unity.test-framework": "1.1.31"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.collab-proxy": {
@@ -100,6 +102,16 @@
       "source": "registry",
       "dependencies": {
         "com.unity.services.core": "1.0.1"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.collections": {
+      "version": "1.2.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.burst": "1.6.6",
+        "com.unity.test-framework": "1.1.31"
       },
       "url": "https://packages.unity.com"
     },
@@ -143,16 +155,6 @@
         "com.unity.performance.profile-analyzer": "1.1.1",
         "com.unity.test-framework": "1.1.33",
         "com.unity.testtools.codecoverage": "1.1.1"
-      }
-    },
-    "com.unity.feature.gameplay-storytelling": {
-      "version": "1.0.0",
-      "depth": 0,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.cinemachine": "2.8.6",
-        "com.unity.timeline": "1.7.1",
-        "com.unity.visualscripting": "1.7.8"
       }
     },
     "com.unity.ide.rider": {
@@ -324,16 +326,6 @@
         "com.unity.shadergraph": "13.1.8",
         "com.unity.render-pipelines.core": "13.1.8"
       }
-    },
-    "com.unity.visualscripting": {
-      "version": "1.7.8",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0",
-        "com.unity.modules.jsonserialize": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

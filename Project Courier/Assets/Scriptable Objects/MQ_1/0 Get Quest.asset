@@ -16,6 +16,8 @@ MonoBehaviour:
   _optional: 0
   _stageDescription: 
   _completed: 1
+  _previousStage: {fileID: 0}
+  _stageNumber: 0
   OnStageCompleted:
     m_PersistentCalls:
       m_Calls: []
