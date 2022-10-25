@@ -5,33 +5,64 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "DialogueScriptable", menuName = "ScriptableObjects/Dialogue")]
-public class ScriptableDialogue : ScriptableObject, IComparable<ScriptableDialogue>
+public class ScriptableDialogue : FlagTriggerBase, IPriorizable
 {
     [SerializeField]
-    private QuestIDs _id = QuestIDs.Default;
+    private PriorityLevel _priority = PriorityLevel.Normal;
+
+    public PriorityLevel Priority { get { return _priority; }  set { } }
 
     [SerializeField]
-    private ScriptableQuestStage _questStage;
+    private bool _isAvailable = false;
+
+    [SerializeField, Tooltip("Determines when the dialogue becomes available to be displayed")]
+    private FlagTriggerBase _availabilityTrigger;
+
+    [SerializeField, Tooltip("Determines when the dialogue will no longer be available to be displayed")]
+    private FlagTriggerBase _expirationTrigger;
 
     [SerializeField]
     private string[] _dialogue;
 
-    public QuestIDs ID { get { return _id; } }
-    public ScriptableQuestStage QuestStage { get { return _questStage; } }
+    public UnityEvent OnDialogueComplete;
+
+
     public string[] Dialogue { get { return _dialogue; } }
 
-    public UnityEvent OnDialogueComplete;
+    public bool IsAvailable { get { return _isAvailable; } }
+
+    [HideInInspector]
+    public UnityEvent<ScriptableDialogue> OnAvailabilityChanged;
+
 
     private void OnEnable()
     {
         if (OnDialogueComplete == null) OnDialogueComplete = new UnityEvent();
+
+        if (OnAvailabilityChanged == null) OnAvailabilityChanged = new UnityEvent<ScriptableDialogue>();
+
+        if (_availabilityTrigger != null)
+            _availabilityTrigger.OnFlagTriggered.AddListener(SetAvailability(true));
+
+        if (_expirationTrigger != null)
+            _expirationTrigger.OnFlagTriggered.AddListener(SetAvailability(false));
     }
 
-    public int CompareTo(ScriptableDialogue pDialogue)
+    private void OnDisable()
     {
-        //TODO: check if sorting works correctly
-        return _questStage.StageNumber.CompareTo(pDialogue.QuestStage.StageNumber);
+        if (_availabilityTrigger != null)
+            _availabilityTrigger.OnFlagTriggered.RemoveListener(SetAvailability(true));
+
+        if (_expirationTrigger != null)
+            _expirationTrigger.OnFlagTriggered.RemoveListener(SetAvailability(false));
     }
 
+    private UnityAction SetAvailability(bool pAvailability)
+    {
+        _isAvailable = pAvailability;
 
+        OnAvailabilityChanged.Invoke(this);
+
+        return null;
+    }
 }

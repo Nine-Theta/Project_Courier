@@ -20,7 +20,9 @@ public class NpcScript : InteractableBase
     [SerializeField]
     private Color _npcSpeechColor = Color.magenta;
 
-    private Dictionary<QuestIDs, List<ScriptableDialogue>> _supportedQuests = new Dictionary<QuestIDs, List<ScriptableDialogue>>();
+    private PriorityPoolManager<ScriptableDialogue> _availableDialogues = new PriorityPoolManager<ScriptableDialogue>();
+
+    private List<ScriptableDialogue> _inactivePool = new List<ScriptableDialogue>();
 
     public string NPCName { get { return _npcName; } }
 
@@ -28,15 +30,18 @@ public class NpcScript : InteractableBase
 
     private void Awake()
     {
-        for (int i = 0; i < _questDialogues.Count; i++)
+        for (int i = 0; i < _dialoguePool.Count; i++)
         {
-            if (!_supportedQuests.ContainsKey(_questDialogues[i].ID))
-            {
-                _supportedQuests.Add(_questDialogues[i].ID, new List<ScriptableDialogue>());
-            }
-            _supportedQuests[_questDialogues[i].ID].Add(_questDialogues[i]);
-            _supportedQuests[_questDialogues[i].ID].Sort();
+
+            if (_dialoguePool[i].IsAvailable)
+                _availableDialogues.AddItem(_dialoguePool[i]);
+            else
+                _inactivePool.Add(_dialoguePool[i]);
+
+
+            _dialoguePool[i].OnAvailabilityChanged.AddListener(OnDialogueFlagged);
         }
+
     }
 
     private void OnEnable()
@@ -44,10 +49,6 @@ public class NpcScript : InteractableBase
         if (OnInteractionStart == null) OnInteractionStart = new UnityEvent<NpcScript>();
     }
 
-    private void Start()
-    {
-
-    }
 
     public override void StartInteraction()
     {
@@ -55,69 +56,45 @@ public class NpcScript : InteractableBase
 
         Debug.Log("Interaction Started");
 
-        QuestIDs[] ids = _supportedQuests.Keys.ToArray();
+        ScriptableDialogue output = _availableDialogues.GetHighestPriority();
 
-        ScriptableDialogue outputText = _randomDialogues[Random.Range(0, _randomDialogues.Count)];
 
-        for(int i = 0; i < _questStarters.Count; i++)
-        {
-            if (_questStarters[i].CanStart)
-            {
-
-            }
-        }
-
-        for (int i = 0; i < _supportedQuests.Count; i++)
-        {
-            if (_questManager.QuestsActive.ContainsKey(ids[i]))
-            {
-                if (_questManager.QuestsActive[ids[i]].CurrentStage >= _supportedQuests[ids[i]].First().QuestStage.StageNumber)
-                {
-                    outputText = _supportedQuests[ids[i]].First();
-                    _supportedQuests[ids[i]].RemoveAt(0);
-                    if (_supportedQuests[ids[i]].Count <= 0) _supportedQuests.Remove(ids[i]);
-                    break;
-                }
-            }
-        }
-
-        DisplayDialogue(outputText.Dialogue);
+        DisplayDialogue(output.Dialogue);
     }
 
-    private void RemoveStageFromList(ScriptableQuestStage pStage)
-    {
+  private void DisplayDialogue(string[] pDialogue)
+  {
+      foreach (string s in pDialogue)
+      {
+          Debug.Log(_npcName + ": " + s);
+      }
 
-    }
-
-
-
-    private void DisplayDialogue(string[] pDialogue)
-    {
-        foreach (string s in pDialogue)
-        {
-            Debug.Log(_npcName + ": " + s);
-        }
-
-        _uiHandler.ShowDialogue(new NpcDialogue(_npcName, pDialogue, _npcColor, _npcSpeechColor));
-    }
+      _uiHandler.ShowDialogue(new NpcDialogue(_npcName, pDialogue, _npcColor, _npcSpeechColor));
+  }
 
     public override void EndInteraction()
     {
 
     }
 
+    private void OnDialogueFlagged(ScriptableDialogue pDialogue)
+    {
+        if (pDialogue.IsAvailable)
+        {
+            _availableDialogues.AddItem(pDialogue);
+            _inactivePool.Remove(pDialogue);
+        }
+        else
+        {
+            _inactivePool.Add(pDialogue);
+            _availableDialogues.TryRemoveItem(pDialogue);
+        }
+    }
 
-    [SerializeField] private List<ScriptableQuestStarter> _questStarters;
+
+    //[SerializeField] private List<ScriptableQuestStarter> _questStarters;
 
     [Header("Dialogues")]
 
-    [SerializeField] private List<ScriptableDialogue> _randomDialogues;
-
-    [SerializeField] private List<ScriptableDialogue> _questDialogues;
-
-    [SerializeField] private List<ScriptableDialogue> _postQuestCompletionDialogues;
-
-    //TODO: dialogue that gets added to the random pool after quests get completed.
-
-
+    [SerializeField] private List<ScriptableDialogue> _dialoguePool;
 }

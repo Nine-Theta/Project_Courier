@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "QuestStarterScriptable", menuName = "ScriptableObjects/QuestStarter")]
-public class ScriptableQuestStarter : ScriptableObject
+public class ScriptableQuestStarter : FlagTriggerBase
 {
     [SerializeField]
     private ScriptableQuest _questToStart;
@@ -32,8 +32,4 @@ public class ScriptableQuestStarter : ScriptableObject
         OnQuestStarted.RemoveAllListeners();
     }
 
-    public bool StartQuest()
-    {
-
-    }
 }
