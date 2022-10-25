@@ -188,9 +188,33 @@ PrefabInstance:
       value: 0.74509805
       objectReference: {fileID: 0}
     - target: {fileID: 4706447008450609583, guid: 422d0ce47da4d7f4a87a6e0582735618, type: 3}
+      propertyPath: _dialoguePool.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706447008450609583, guid: 422d0ce47da4d7f4a87a6e0582735618, type: 3}
       propertyPath: QuestDialogues.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4706447008450609583, guid: 422d0ce47da4d7f4a87a6e0582735618, type: 3}
+      propertyPath: _dialoguePool.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6eedd2dd92e30a6418b712e4b4946170, type: 2}
+    - target: {fileID: 4706447008450609583, guid: 422d0ce47da4d7f4a87a6e0582735618, type: 3}
+      propertyPath: _dialoguePool.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: be90a41e2478f9c4dba51c6173faa0be, type: 2}
+    - target: {fileID: 4706447008450609583, guid: 422d0ce47da4d7f4a87a6e0582735618, type: 3}
+      propertyPath: _dialoguePool.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f4c6871ae574cc42be8098badc12a0d, type: 2}
+    - target: {fileID: 4706447008450609583, guid: 422d0ce47da4d7f4a87a6e0582735618, type: 3}
+      propertyPath: _dialoguePool.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2fd182d6a70ef3f40bd8008fadb545c0, type: 2}
+    - target: {fileID: 4706447008450609583, guid: 422d0ce47da4d7f4a87a6e0582735618, type: 3}
+      propertyPath: _dialoguePool.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2fd182d6a70ef3f40bd8008fadb545c0, type: 2}
     - target: {fileID: 4706447008450609583, guid: 422d0ce47da4d7f4a87a6e0582735618, type: 3}
       propertyPath: QuestDialogues.Array.data[0]
       value: 

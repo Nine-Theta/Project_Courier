@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c712187da7ab3aa45857e4e24091f174, type: 3}
-  m_Name: D1 Accepted Quest
+  m_Name: D2 Delivered Package
   m_EditorClassIdentifier: 
   OnFlagTriggered:
     m_PersistentCalls:
@@ -18,16 +18,14 @@ MonoBehaviour:
   _priority: 1
   _startAvailable: 0
   _isRepeatable: 0
-  _availabilityTrigger: {fileID: 11400000, guid: 5f4c6871ae574cc42be8098badc12a0d, type: 2}
+  _availabilityTrigger: {fileID: 11400000, guid: 2fd182d6a70ef3f40bd8008fadb545c0, type: 2}
   _expirationTrigger: {fileID: 0}
   _dialogue:
-  - Great! Here's the package.
-  - He lives just a few houses down the street on the right.
-  - Number 143, can't miss it.
+  - Thanks
   OnDialogueComplete:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: e776b40c54e56af49963cb894dca3e1f, type: 2}
+      - m_Target: {fileID: 11400000, guid: 52236354d81f259498ec5b6d2937c621, type: 2}
         m_TargetAssemblyTypeName: ScriptableQuestStage, Assembly-CSharp
         m_MethodName: CompleteStage
         m_Mode: 1

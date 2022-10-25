@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "ScriptQuest", menuName = "ScriptableObjects/Quest")]
-public class ScriptableQuest : ScriptableObject
+public class ScriptableQuest : FlagTriggerBase
 {
     [SerializeField]
     private QuestIDs _id;
@@ -52,9 +52,11 @@ public class ScriptableQuest : ScriptableObject
             OnActive = new UnityEvent();
             Debug.LogWarning("init oa");
         }
-        if(OnComplete == null) OnComplete = new UnityEvent();
+        if (OnComplete == null) OnComplete = new UnityEvent();
 
-        for (int i = Stages.Length-1; i> 0; i--)
+        OnComplete.AddListener(this.OnFlagTriggered.Invoke);
+
+        for (int i = Stages.Length - 1; i > 0; i--)
         {
             Stages[i].Init(Stages[i - 1], (byte)i);
             Stages[i].OnStageCompleted.AddListener(HandleStageComplete);
@@ -76,20 +78,11 @@ public class ScriptableQuest : ScriptableObject
     {
         //Debug.LogError(OnActive.);
 
-        _currentStage = (byte)(pStage.StageNumber+1);
+        _currentStage = (byte)(pStage.StageNumber + 1);
 
-        try
+        if (pStage.StageNumber == 0)
         {
-            Debug.LogWarning("try");
-            if (pStage.StageNumber == 0)
-            {
-                Debug.LogWarning("if");
-                OnActive.Invoke();
-            }
-        }
-        catch(NullReferenceException e)
-        {
-            Debug.Log(e);
+            OnActive.Invoke();
         }
 
         if (pStage.StageNumber == Stages.Length)

@@ -12,8 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c712187da7ab3aa45857e4e24091f174, type: 3}
   m_Name: TestDialogue01
   m_EditorClassIdentifier: 
-  _id: 0
-  _questStage: {fileID: 0}
+  OnFlagTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  _priority: 3
+  _startAvailable: 1
+  _isRepeatable: 1
+  _availabilityTrigger: {fileID: 0}
+  _expirationTrigger: {fileID: 0}
   _dialogue:
   - Hi there!
-  - Hey!
+  OnDialogueComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAvailabilityChanged:
+    m_PersistentCalls:
+      m_Calls: []

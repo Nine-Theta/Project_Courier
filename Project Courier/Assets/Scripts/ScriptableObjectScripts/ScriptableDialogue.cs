@@ -13,7 +13,12 @@ public class ScriptableDialogue : FlagTriggerBase, IPriorizable
     public PriorityLevel Priority { get { return _priority; }  set { } }
 
     [SerializeField]
+    private bool _startAvailable = false;
+
     private bool _isAvailable = false;
+
+    [SerializeField]
+    private bool _isRepeatable = false;
 
     [SerializeField, Tooltip("Determines when the dialogue becomes available to be displayed")]
     private FlagTriggerBase _availabilityTrigger;
@@ -26,10 +31,10 @@ public class ScriptableDialogue : FlagTriggerBase, IPriorizable
 
     public UnityEvent OnDialogueComplete;
 
-
     public string[] Dialogue { get { return _dialogue; } }
 
     public bool IsAvailable { get { return _isAvailable; } }
+    public bool IsRepeatable { get { return _isRepeatable; } }
 
     [HideInInspector]
     public UnityEvent<ScriptableDialogue> OnAvailabilityChanged;
@@ -38,6 +43,8 @@ public class ScriptableDialogue : FlagTriggerBase, IPriorizable
     private void OnEnable()
     {
         if (OnDialogueComplete == null) OnDialogueComplete = new UnityEvent();
+
+        OnDialogueComplete.AddListener(this.OnFlagTriggered.Invoke);
 
         if (OnAvailabilityChanged == null) OnAvailabilityChanged = new UnityEvent<ScriptableDialogue>();
 
@@ -50,6 +57,8 @@ public class ScriptableDialogue : FlagTriggerBase, IPriorizable
 
     private void OnDisable()
     {
+        _isAvailable = _startAvailable;
+
         if (_availabilityTrigger != null)
             _availabilityTrigger.OnFlagTriggered.RemoveListener(SetAvailability(true));
 

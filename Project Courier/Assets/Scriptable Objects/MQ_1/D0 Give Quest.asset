@@ -12,10 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c712187da7ab3aa45857e4e24091f174, type: 3}
   m_Name: D0 Give Quest
   m_EditorClassIdentifier: 
-  _id: 1
-  _questStage: {fileID: 11400000, guid: e776b40c54e56af49963cb894dca3e1f, type: 2}
+  OnFlagTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  _priority: 1
+  _startAvailable: 1
+  _isRepeatable: 0
+  _availabilityTrigger: {fileID: 0}
+  _expirationTrigger: {fileID: 0}
   _dialogue:
-  - Morning, sleep well?
-  - Hey I've got a package for Mr %NpcName2%
+  - Morning!
+  - Hey I've got a package for %NpcName2%
   - Would you be a dear and deliver it for me?
   - I'll give you some extra pocket money in exchange.
+  OnDialogueComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAvailabilityChanged:
+    m_PersistentCalls:
+      m_Calls: []

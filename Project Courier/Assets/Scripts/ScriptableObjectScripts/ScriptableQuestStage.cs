@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "StageScriptable", menuName = "ScriptableObjects/QuestStage")]
-public class ScriptableQuestStage : ScriptableObject
+public class ScriptableQuestStage : FlagTriggerBase
 {
     [SerializeField]
     private string _stageName = "";
@@ -38,8 +38,6 @@ public class ScriptableQuestStage : ScriptableObject
 
         _completed = false;
 
-        Debug.LogWarning(this.name + ": enabl");
-
         if (OnStageCompleted == null) OnStageCompleted = new UnityEvent<ScriptableQuestStage>();
     }
 
@@ -60,20 +58,12 @@ public class ScriptableQuestStage : ScriptableObject
 
     public void CompleteStage()
     {
-        Debug.Log("complete stage called");
 
-        try
+        if (_completed == false && (_previousStage == null || _previousStage.Completed || _previousStage.Optional))
         {
-
-            if (_completed == false && (_previousStage == null || _previousStage.Completed || _previousStage.Optional))
-            {
-                _completed = true;
-                OnStageCompleted.Invoke(this);
-            }
-        }
-        catch(Exception e)
-        {
-            Debug.LogError(this.name + ": yeeted: " + e);
+            _completed = true;
+            OnStageCompleted.Invoke(this);
+            this.OnFlagTriggered.Invoke();
         }
     }
 }

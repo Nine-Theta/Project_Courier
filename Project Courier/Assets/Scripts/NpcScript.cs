@@ -9,8 +9,8 @@ public class NpcScript : InteractableBase
     [SerializeField]
     private string _npcName = "Dummy";
 
-    [SerializeField]
-    private QuestManagerScriptable _questManager;
+    //[SerializeField]
+    //private QuestManagerScriptable _questManager;
 
     [SerializeField]
     private UIManagerScriptable _uiHandler;
@@ -58,6 +58,8 @@ public class NpcScript : InteractableBase
 
         ScriptableDialogue output = _availableDialogues.GetHighestPriority();
 
+        //Not a great solution, can't think of a better way rn
+        if (!output.IsRepeatable) _availableDialogues.TryRemoveItem(output);
 
         DisplayDialogue(output.Dialogue);
     }
