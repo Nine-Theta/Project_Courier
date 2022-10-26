@@ -17,9 +17,10 @@ MonoBehaviour:
       m_Calls: []
   _priority: 1
   _startAvailable: 0
+  _isAvailable: 0
   _isRepeatable: 0
   _availabilityTrigger: {fileID: 11400000, guid: 2fd182d6a70ef3f40bd8008fadb545c0, type: 2}
-  _expirationTrigger: {fileID: 0}
+  _expirationTrigger: {fileID: 11400000}
   _dialogue:
   - Thanks
   OnDialogueComplete:

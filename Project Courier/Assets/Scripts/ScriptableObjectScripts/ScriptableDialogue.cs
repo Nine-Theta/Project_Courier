@@ -14,7 +14,7 @@ public class ScriptableDialogue : FlagTriggerBase, IPriorizable
 
     [SerializeField]
     private bool _startAvailable = false;
-
+    [SerializeField]
     private bool _isAvailable = false;
 
     [SerializeField]
@@ -42,36 +42,55 @@ public class ScriptableDialogue : FlagTriggerBase, IPriorizable
 
     private void OnEnable()
     {
+        _isAvailable = _startAvailable;
+
         if (OnDialogueComplete == null) OnDialogueComplete = new UnityEvent();
 
         OnDialogueComplete.AddListener(this.OnFlagTriggered.Invoke);
 
+        if(!_isRepeatable)
+            OnDialogueComplete.AddListener(DisableOnComplete);
+
         if (OnAvailabilityChanged == null) OnAvailabilityChanged = new UnityEvent<ScriptableDialogue>();
 
         if (_availabilityTrigger != null)
-            _availabilityTrigger.OnFlagTriggered.AddListener(SetAvailability(true));
+            _availabilityTrigger.OnFlagTriggered.AddListener(SetAvailable);
 
         if (_expirationTrigger != null)
-            _expirationTrigger.OnFlagTriggered.AddListener(SetAvailability(false));
+            _expirationTrigger.OnFlagTriggered.AddListener(SetUnavailable);
     }
 
     private void OnDisable()
     {
-        _isAvailable = _startAvailable;
-
         if (_availabilityTrigger != null)
-            _availabilityTrigger.OnFlagTriggered.RemoveListener(SetAvailability(true));
+            _availabilityTrigger.OnFlagTriggered.RemoveListener(SetAvailable);
 
         if (_expirationTrigger != null)
-            _expirationTrigger.OnFlagTriggered.RemoveListener(SetAvailability(false));
+            _expirationTrigger.OnFlagTriggered.RemoveListener(SetUnavailable);
     }
 
-    private UnityAction SetAvailability(bool pAvailability)
+    private void DisableOnComplete()
     {
-        _isAvailable = pAvailability;
+        OnDialogueComplete.RemoveAllListeners();
+    }
+
+    private void SetAvailable()
+    {
+        if (_isAvailable) return;
+        _isAvailable = true;
 
         OnAvailabilityChanged.Invoke(this);
 
-        return null;
+        Debug.Log(this + ": setavailability true");
+    }
+
+    private void SetUnavailable()
+    {
+        if(!_isAvailable) return;
+        _isAvailable = false;
+
+        OnAvailabilityChanged.Invoke(this);
+
+        Debug.Log(this + ": setavailability false");
     }
 }

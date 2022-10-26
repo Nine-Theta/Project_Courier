@@ -47,6 +47,11 @@ public class PriorityPoolManager<T> where T : IPriorizable
         }
     }
 
+    public void AddBacklogItem(T pItem)
+    {
+        _backlogPool.Add(pItem);
+    }
+
     public bool TryRemoveItem(T pItem)
     {
         if (_backlogPool.Contains(pItem))
@@ -69,6 +74,28 @@ public class PriorityPoolManager<T> where T : IPriorizable
                 return RemoveFromQueue(_lowPool, pItem);
         }
         return false;
+    }
+
+    //Debug
+    public List<T> GetPoolAsList(int pPool)
+    {
+        switch (pPool)
+        {
+            case 3:
+                return _normalPool.ToList<T>();
+            case 2:
+                return _preferredPool.ToList<T>();
+            case 1:
+                return _importantPool.ToList<T>();
+            case 0:
+                return _criticalPool.ToList<T>();
+            case 4:
+                return _lowPool.ToList<T>();
+            case 5:
+                return _backlogPool;
+        }
+
+        return _backlogPool;
     }
 
     /////////////////////////////////////////////////////////

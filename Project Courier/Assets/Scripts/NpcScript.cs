@@ -20,7 +20,7 @@ public class NpcScript : InteractableBase
     [SerializeField]
     private Color _npcSpeechColor = Color.magenta;
 
-    private PriorityPoolManager<ScriptableDialogue> _availableDialogues = new PriorityPoolManager<ScriptableDialogue>();
+    public PriorityPoolManager<ScriptableDialogue> _availableDialogues = new PriorityPoolManager<ScriptableDialogue>();
 
     private List<ScriptableDialogue> _inactivePool = new List<ScriptableDialogue>();
 
@@ -41,7 +41,6 @@ public class NpcScript : InteractableBase
 
             _dialoguePool[i].OnAvailabilityChanged.AddListener(OnDialogueFlagged);
         }
-
     }
 
     private void OnEnable()
@@ -56,10 +55,15 @@ public class NpcScript : InteractableBase
 
         Debug.Log("Interaction Started");
 
-        ScriptableDialogue output = _availableDialogues.GetHighestPriority();
+        ScriptableDialogue output = _availableDialogues.GetHighestPriority(true);
 
         //Not a great solution, can't think of a better way rn
-        if (!output.IsRepeatable) _availableDialogues.TryRemoveItem(output);
+        //if (!output.IsRepeatable) _availableDialogues.TryRemoveItem(output);
+
+        //better solution
+        if(output.IsRepeatable) _availableDialogues.AddBacklogItem(output);
+
+        _uiHandler.OnFinishDialogue.AddListener(output.OnDialogueComplete.Invoke);
 
         DisplayDialogue(output.Dialogue);
     }
@@ -68,7 +72,7 @@ public class NpcScript : InteractableBase
   {
       foreach (string s in pDialogue)
       {
-          Debug.Log(_npcName + ": " + s);
+          //Debug.Log(_npcName + ": " + s);
       }
 
       _uiHandler.ShowDialogue(new NpcDialogue(_npcName, pDialogue, _npcColor, _npcSpeechColor));
@@ -81,6 +85,8 @@ public class NpcScript : InteractableBase
 
     private void OnDialogueFlagged(ScriptableDialogue pDialogue)
     {
+        Debug.LogAssertion("On dialogue flagged: " + pDialogue);
+
         if (pDialogue.IsAvailable)
         {
             _availableDialogues.AddItem(pDialogue);

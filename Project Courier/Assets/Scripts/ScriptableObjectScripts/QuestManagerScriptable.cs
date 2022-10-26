@@ -68,7 +68,7 @@ public class QuestManagerScriptable : ScriptableObject
 
     public UnityAction HandleQuestActivated(QuestIDs pID)
     {
-        if (!TrySetQuestActive(pID))
+        if (!SetQuestActive(pID))
         {
             Debug.LogError("Something Went wrong activating the quest");
         }
@@ -94,7 +94,7 @@ public class QuestManagerScriptable : ScriptableObject
         return null;
     }
 
-    public bool TrySetQuestActive(QuestIDs pID)
+    public bool SetQuestActive(QuestIDs pID)
     {
         if (_questsBacklog.TryGetValue(pID, out ScriptableQuest quest))
         {

@@ -12,12 +12,14 @@ public class UIManagerScriptable : ScriptableObject
 
     [HideInInspector] public UnityEvent<string> SwitchInputMap;
     [HideInInspector] public UnityEvent<NpcDialogue> OnStartDialogue;
+    [HideInInspector] public UnityEvent OnFinishDialogue;
 
 
     private void OnEnable()
     {
         if (SwitchInputMap == null) SwitchInputMap = new UnityEvent<string>();
         if (OnStartDialogue == null) OnStartDialogue = new UnityEvent<NpcDialogue>();
+        if (OnFinishDialogue == null) OnFinishDialogue = new UnityEvent();
     }
 
     public void ShowDialogue(NpcDialogue pDialogue)
@@ -33,6 +35,7 @@ public class UIManagerScriptable : ScriptableObject
 
     public void StopUI()
     {
+        OnFinishDialogue.Invoke();
         SwitchInputMap.Invoke(PlayerInputMapName);
         Debug.Log("UI stopped");
     }

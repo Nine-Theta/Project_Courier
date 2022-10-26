@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 329d45cbb9d7bfd4598847679e3ddb87, type: 3}
   m_Name: 0 Get Quest
   m_EditorClassIdentifier: 
+  OnFlagTriggered:
+    m_PersistentCalls:
+      m_Calls: []
   _stageName: Get Quest
   _optional: 0
   _stageDescription: 
-  _completed: 1
+  _completed: 0
   _previousStage: {fileID: 0}
   _stageNumber: 0
   OnStageCompleted:
