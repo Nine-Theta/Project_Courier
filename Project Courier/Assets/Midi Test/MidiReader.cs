@@ -95,15 +95,19 @@ public class MidiReader : MonoBehaviour
         midiTrack.length = BitConverter.ToInt32(lengthBytes);
         Debug.Log("track length: " + midiTrack.length);
 
+        byte runningStatus = 0;
+
         for (int i = fileIndex; i + midiTrack.length > fileIndex;)
         {
-            midiTrack.events.Add(ReadEvent());
+            midiTrack.events.Add(ReadEvent(runningStatus));
+            runningStatus = midiTrack.events.Last().eventType;
+
         }
 
         return midiTrack;
     }
 
-    private MTrkEvent ReadEvent()
+    private MTrkEvent ReadEvent(byte pRunningStatus)
     {
         MTrkEvent eve = new MTrkEvent();
 
@@ -130,7 +134,7 @@ public class MidiReader : MonoBehaviour
             default:
                 Debug.Log("Non-specified Event ID, handling as midi event");
                 eve.eventID = 0;
-                HandleMidiEvent(eve);
+                HandleMidiEvent(eve, pRunningStatus);
                 break;
         }
 
@@ -179,7 +183,7 @@ public class MidiReader : MonoBehaviour
                 break;
             case 89: //59 Key Signature
                 break;
-            case 127: //7F Sqequencer-Specific
+            case 127: //7F Sequencer-Specific
                 break;
             default:
                 Debug.LogError("Unknown meta-event, contact your local government official about this issue");
@@ -189,49 +193,39 @@ public class MidiReader : MonoBehaviour
         fileIndex += (dataLength);
     }
 
-    private void HandleMidiEvent(MTrkEvent pEvent)
+    private void HandleMidiEvent(MTrkEvent pEvent, byte pRunningStatus)
     {
-        pEvent.eventType = _midiData[fileIndex];
         byte channel;
         byte command;
+        pEvent.eventType = _midiData[fileIndex];
 
+        if (pEvent.eventType <= 127)
+        {
+            pEvent.eventType = pRunningStatus; //should be handled differently, but good enough for now
+        }
         command = (byte)(pEvent.eventType / 16);
 
         channel = (byte)(pEvent.eventType % 16);
 
+
         switch (command)
         {
-            case 0:
+            case 8:  //8 Note-Off
                 break;
-            case 1:
+            case 9:  //9 Note-On
                 break;
-            case 2:
+            case 10: //A Poly Key Pressure 
                 break;
-            case 3:
+            case 11: //B Control Change
                 break;
-            case 4:
+            case 12: //C Program Change
                 break;
-            case 5:
+            case 13: //D Channel Pressure
                 break;
-            case 6:
-                break;
-            case 7:
-                break;
-            case 8:
-                break;
-            case 9:
-                break;
-            case 10: //A
-                break;
-            case 11: //B
-                break;
-            case 12: //C
-                break;
-            case 13: //D
-                break;
-            case 14: //E
+            case 14: //E Pitch Bend
                 break;
             case 15: //F
+                Debug.LogError("A MIDI Event definitely shouldn't be F type, so idk what you did there");
                 break;
             default:
                 Debug.LogError("I don't know how you managed this, but your command ID is out of range");
