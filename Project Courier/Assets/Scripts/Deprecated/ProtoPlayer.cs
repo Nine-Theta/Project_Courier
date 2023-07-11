@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
+[Obsolete]
 public class ProtoPlayer : MonoBehaviour
 {
     public enum Directions { NONE, NORTH, EAST, SOUTH, WEST };
@@ -9,7 +12,7 @@ public class ProtoPlayer : MonoBehaviour
     [SerializeField]
     private int _tileSize;
     [SerializeField]
-    private int _moveSpeed;
+    private float _moveSpeed;
 
 
     private Vector2 _playerPos;
@@ -19,6 +22,7 @@ public class ProtoPlayer : MonoBehaviour
     private Directions _moveDir;
     private Directions _nextMoveDir;
 
+    
     public Directions SetNextTargetDir
     {
         set
@@ -48,9 +52,37 @@ public class ProtoPlayer : MonoBehaviour
 
             _nextMoveDir = value;
 
+           
+
             if (isOpposite)
                 SetMoveDir();            
         }
+    }
+
+    public void OnMove(InputValue movementValue)
+    {
+        Directions dir = Directions.NONE;
+    
+        if(movementValue.Get<Vector2>().y >= 0.5f)
+        {
+            dir = Directions.NORTH;
+        }
+        else if (movementValue.Get<Vector2>().y <= -0.5f)
+        {
+            dir = Directions.SOUTH;
+        }
+        else if (movementValue.Get<Vector2>().x >= 0.5f)
+        {
+            dir = Directions.EAST;
+        }
+        else if (movementValue.Get<Vector2>().x <= -0.5f)
+        {
+            dir = Directions.WEST;
+        }
+
+        SetNextTargetDir = dir;
+
+        //Debug.Log("beep " + movementValue.Get<Vector2>());
     }
 
     private void Start()
@@ -100,6 +132,8 @@ public class ProtoPlayer : MonoBehaviour
 
         _moveTargetPos = new Vector2(x, y);
 
-        _moveDelta = _moveTargetPos - _playerPos * _moveSpeed;
+        _moveDelta = (_moveTargetPos - _playerPos) * _moveSpeed;
+
+        Debug.Log("beep " + _moveDelta);
     }
 }

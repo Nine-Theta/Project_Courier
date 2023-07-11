@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c712187da7ab3aa45857e4e24091f174, type: 3}
+  m_Name: D0 Give Quest
+  m_EditorClassIdentifier: 
+  OnFlagTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  _priority: 1
+  _startAvailable: 1
+  _isAvailable: 0
+  _isRepeatable: 0
+  _availabilityTrigger: {fileID: 0}
+  _expirationTrigger: {fileID: 11400000}
+  _dialogue:
+  - Morning!
+  - Hey I've got a package for %NpcName2%
+  - Would you be a dear and deliver it for me?
+  - I'll give you some extra pocket money in exchange.
+  OnDialogueComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAvailabilityChanged:
+    m_PersistentCalls:
+      m_Calls: []
